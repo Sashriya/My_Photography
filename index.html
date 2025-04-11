@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sashriya Photography</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f8f8f8;
+      color: #333;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(6px);
+    }
+
+    header h2 {
+      font-family: 'Playfair Display', serif;
+    }
+
+    nav button {
+      background-color: #444;
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      margin-left: 0.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    nav button:hover {
+      background-color: #666;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 5rem 1rem;
+      background: url('https://plus.unsplash.com/premium_photo-1675433344518-21eb72dfc7a5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bmF0dXJlfGVufDB8fDB8fHww') no-repeat center/cover;
+      color: white;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 0;
+    }
+
+    .hero h1,
+    .hero p,
+    .hero .explore-btn {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      margin-bottom: 0.5rem;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero .explore-btn {
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      background-color: #ff5722;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .hero .explore-btn:hover {
+      background-color: #e64a19;
+    }
+
+    .section {
+      padding: 3rem 1rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .section h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      position: relative;
+    }
+
+    .section h2::after {
+      content: '';
+      width: 50px;
+      height: 3px;
+      background-color: #ff5722;
+      display: block;
+      margin: 10px auto 0;
+    }
+
+    .about {
+      text-align: center;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .category-card {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 1rem;
+      border-radius: 10px;
+      width: 200px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .category-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .login-modal {
+      position: fixed;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    .login-box {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+      position: relative;
+    }
+
+    .login-box input {
+      width: 90%;
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .login-box button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #333;
+      color: white;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #222;
+      color: white;
+      margin-top: 3rem;
+    }
+
+    footer a {
+      color: #aaa;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .categories {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      nav button {
+        margin: 0.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h2><i class="fas fa-camera-retro"></i> My Photography</h2>
+    <nav>
+      <button onclick="openLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
+      <button onclick="goToUpload()"><i class="fas fa-upload"></i> Upload</button>
+      <button onclick="goToGallery()"><i class="fas fa-images"></i> Gallery</button>
+      <button onclick="viewFavorites()"><i class="fas fa-heart"></i> Favorites</button>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h1>Welcome to My Lens</h1>
+    <p>Capturing stories, one frame at a time</p>
+    <button class="explore-btn" onclick="goToGallery()">Explore My Work</button>
+  </div>
+
+  <div class="section about">
+    <h2>About Me</h2>
+    <p>Dedicated to capturing the essence of every moment through the lens. This platform showcases a collection of curated visuals across genres like nature, portraits, and street photography.</p>
+  </div>
+
+  <div class="section">
+    <h2>Featured Categories</h2>
+    <div class="categories" id="category-select" onchange="renderGallery()">
+        <div class="category-card" onclick="goToGalleryCategory('All')">📷 All</div>
+        <div class="category-card" onclick="goToGalleryCategory('Nature')">🌿 Nature</div>
+        <div class="category-card" onclick="goToGalleryCategory('Portraits')">👤 Portraits</div>
+        <div class="category-card" onclick="goToGalleryCategory('Street')">🚶‍♂️ Street</div>
+        <div class="category-card" onclick="goToGalleryCategory('Travel')">✈️ Travel</div>          
+    </div>
+  </div>
+
+  <div class="login-modal" id="login-modal" onclick="closeModal(event)">
+    <div class="login-box">
+      <h3>Login</h3>
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+      <button onclick="login()">Login</button>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 My Photography |
+    <a href="#"><i class="fab fa-instagram"></i> Instagram</a> |
+    <a href="#"><i class="fab fa-facebook-f"></i> Facebook</a> |
+    <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+  </footer>
+
+  <script>
+    let isLoggedIn = localStorage.getItem("loggedIn") === "true";
+
+    function openLogin() {
+      document.getElementById("login-modal").style.display = "flex";
+    }
+
+    function login() {
+      const u = document.getElementById("username").value;
+      const p = document.getElementById("password").value;
+      if (u === "admin" && p === "1234") {
+        localStorage.setItem("loggedIn", "true");
+        isLoggedIn = true;
+        document.getElementById("login-modal").style.display = "none";
+        alert("Logged in!");
+      } else {
+        alert("Wrong credentials");
+      }
+    }
+
+    function goToUpload() {
+      if (isLoggedIn) window.location.href = "upload.html";
+      else alert("Please login first.");
+    }
+
+    function goToGallery() {
+      window.location.href = "gallery.html";
+    }
+
+    function viewFavorites() {
+      window.location.href = "gallery.html?view=favorites";
+    }
+
+    function closeModal(e) {
+      if (e.target.id === "login-modal") {
+        document.getElementById("login-modal").style.display = "none";
+      }
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        document.getElementById("login-modal").style.display = "none";
+      }
+    });
+
+    function goToGalleryCategory(category) {
+        window.location.href = `gallery.html?category=${category}`;
+      }
+      
+      
+  </script>
+
+</body>
+</html>

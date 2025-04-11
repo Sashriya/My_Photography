@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload Photo</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+    }
+
+    .upload-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    input[type="file"],
+    select {
+      margin: 1rem 0;
+      padding: 0.6rem;
+      width: 100%;
+    }
+
+    button {
+      background: #4caf50;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #3c9e41;
+    }
+
+    img {
+      max-width: 100%;
+      margin-top: 1rem;
+      border-radius: 8px;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 2rem;
+      color: #f04f4f;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h2>Upload New Photo</h2>
+  <div class="upload-container">
+    <input type="file" id="photo-input" accept="image/*" />
+    <select id="category">
+      <option value="Nature">Nature</option>
+      <option value="Portraits">Portraits</option>
+      <option value="Street">Street</option>
+      <option value="Travel">Travel</option>
+    </select>
+    <br>
+    <button onclick="uploadPhoto()">Upload</button>
+    <div id="preview"></div>
+    <a href="index.html">← Back to Home</a>
+  </div>
+
+  <script>
+    if (localStorage.getItem("loggedIn") !== "true") {
+      alert("You must login first.");
+      window.location.href = "index.html";
+    }
+
+    const input = document.getElementById("photo-input");
+    input.addEventListener("change", () => {
+      const file = input.files[0];
+      const preview = document.getElementById("preview");
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function uploadPhoto() {
+      const file = input.files[0];
+      const category = document.getElementById("category").value;
+      if (!file) return alert("Please select a photo");
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const photos = JSON.parse(localStorage.getItem("photos")) || [];
+        photos.push({ src: e.target.result, category });
+        localStorage.setItem("photos", JSON.stringify(photos));
+        alert("Photo uploaded successfully!");
+        window.location.href = "index.html";
+      };
+      reader.readAsDataURL(file);
+    }
+  </script>
+</body>
+</html>

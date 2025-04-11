@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery - Sashriya Photography</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f0f0f0;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .filters {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    select, button {
+      padding: 0.5rem 1rem;
+      margin: 0 0.5rem;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .img-card {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .img-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+    .img-card button {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+    .img-card button:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <h2>Gallery</h2>
+  <div class="filters">
+    <select id="category-select" onchange="renderGallery()">
+      <option value="All">All</option>
+      <option value="Nature">Nature</option>
+      <option value="Portraits">Portraits</option>
+      <option value="Street">Street</option>
+      <option value="Travel">Travel</option>
+    </select>
+    <button onclick="goBack()">Back</button>
+  </div>
+
+  <div class="gallery" id="gallery"></div>
+  
+
+
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const viewFavorites = urlParams.get('view') === 'favorites';
+
+    function renderGallery() {
+      const gallery = document.getElementById("gallery");
+      const selectedCategory = document.getElementById("category-select").value;
+      const photos = JSON.parse(localStorage.getItem("photos")) || [];
+      const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+      gallery.innerHTML = "";
+
+      photos.forEach((photo) => {
+        if ((selectedCategory === "All" || photo.category === selectedCategory) &&
+           (!viewFavorites || favorites.includes(photo.src))) {
+          const div = document.createElement("div");
+          div.className = "img-card";
+
+          const img = document.createElement("img");
+          img.src = photo.src;
+          img.alt = photo.category;
+          div.appendChild(img);
+
+          const favBtn = document.createElement("button");
+          favBtn.textContent = favorites.includes(photo.src) ? "★ Favorited" : "☆ Favorite";
+          favBtn.onclick = () => {
+            let updated = JSON.parse(localStorage.getItem("favorites")) || [];
+            if (updated.includes(photo.src)) {
+              updated = updated.filter(f => f !== photo.src);
+            } else {
+              updated.push(photo.src);
+            }
+            localStorage.setItem("favorites", JSON.stringify(updated));
+            renderGallery();
+          };
+
+          div.appendChild(favBtn);
+          gallery.appendChild(div);
+        }
+      });
+    }
+
+    function goBack() {
+      window.location.href = "index.html";
+    }
+
+    window.onload = () => {
+      renderGallery();
+    };
+
+    const params = new URLSearchParams(window.location.search);
+const selectedCategory = params.get("category");
+
+if (selectedCategory) {
+  // Filter or show images based on `selectedCategory`
+  console.log("Showing images for:", selectedCategory);
+  // You would implement filtering logic here
+}
+
+    function goToUpload() {
+        if (isLoggedIn) {
+            window.location.href = "upload.html";
+        }
+        else {
+            alert("Please Login First");
+        }
+    }
+
+    function goToGallery() {
+        window.location.href = "gallery.html";
+    }
+
+    function viewFavorites() {
+        window.location.href = "gallery.html?view=favourites";
+    }
+
+    function closeModal(e) {
+        if (e.getTarget.id === "login-modal") {
+            document.getElementById("login-modal").style.display = "none";
+        }
+    }
+  </script>
+</body>
+</html>
